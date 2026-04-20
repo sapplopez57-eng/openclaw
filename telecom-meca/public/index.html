@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telecom-Meca Agent - Web Interface</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 85vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 30px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #495057;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #6c757d;
+      transition: background 0.3s;
+    }
+
+    .status-dot.connected {
+      background: #28a745;
+      box-shadow: 0 0 8px rgba(40, 167, 69, 0.4);
+    }
+
+    .model-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .model-selector select {
+      padding: 8px 12px;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 15px 20px;
+      border-radius: 15px;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+
+    .message.assistant {
+      align-self: flex-start;
+      background: #f1f3f4;
+      color: #333;
+      border-bottom-left-radius: 5px;
+    }
+
+    .message.system {
+      align-self: center;
+      background: #fff3cd;
+      color: #856404;
+      font-size: 13px;
+      padding: 10px 15px;
+      text-align: center;
+    }
+
+    .message pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+
+    .message code {
+      font-family: 'Courier New', monospace;
+    }
+
+    .typing-indicator {
+      display: none;
+      align-self: flex-start;
+      background: #f1f3f4;
+      padding: 15px 20px;
+      border-radius: 15px;
+      border-bottom-left-radius: 5px;
+    }
+
+    .typing-indicator.active {
+      display: flex;
+      gap: 5px;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #adb5bd;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.7;
+      }
+      30% {
+        transform: translateY(-10px);
+        opacity: 1;
+      }
+    }
+
+    .input-container {
+      padding: 20px 30px;
+      background: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+      display: flex;
+      gap: 15px;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #dee2e6;
+      border-radius: 12px;
+      font-size: 15px;
+      resize: none;
+      font-family: inherit;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: #667eea;
+    }
+
+    .send-button {
+      padding: 0 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .send-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .send-button:active {
+      transform: translateY(0);
+    }
+
+    .send-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 10px;
+      padding: 15px 30px;
+      background: white;
+      border-top: 1px solid #e9ecef;
+      overflow-x: auto;
+    }
+
+    .quick-action-btn {
+      padding: 8px 16px;
+      background: #f1f3f4;
+      border: 1px solid #dee2e6;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #495057;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .quick-action-btn:hover {
+      background: #e9ecef;
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .tools-panel {
+      display: none;
+      padding: 15px 30px;
+      background: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+    }
+
+    .tools-panel.active {
+      display: block;
+    }
+
+    .tool-result {
+      background: #e7f3ff;
+      border: 1px solid #b3d9ff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .tool-result h4 {
+      color: #0066cc;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .tool-result pre {
+      background: #f1f3f4;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+
+    /* Scrollbar styling */
+    .chat-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .chat-container::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+
+    .chat-container::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📡 Telecom-Meca Agent</h1>
+      <p>Asistente especializado en Telecomunicaciones y Mecatrónica</p>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-indicator">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Desconectado</span>
+      </div>
+      <div class="model-selector">
+        <label for="modelSelect">Modelo:</label>
+        <select id="modelSelect">
+          <option value="qwen2.5-coder:7b">Qwen 2.5 Coder 7B</option>
+          <option value="qwen2.5:7b">Qwen 2.5 7B</option>
+          <option value="llama3.2:3b">Llama 3.2 3B</option>
+          <option value="mistral:7b">Mistral 7B</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+      <div class="message system">
+        👋 ¡Bienvenido! Soy tu asistente especializado en telecomunicaciones y mecatrónica.<br>
+        Puedo ayudarte con cálculos de RF, diseño de antenas, sistemas de control, PID, y más.
+      </div>
+    </div>
+
+    <div class="typing-indicator" id="typingIndicator">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+
+    <div class="tools-panel" id="toolsPanel"></div>
+
+    <div class="quick-actions">
+      <button class="quick-action-btn" onclick="sendQuickQuery('Calcula el presupuesto de enlace para 2.4 GHz, 20 dBm, 5 km')">📡 Presupuesto de Enlace</button>
+      <button class="quick-action-btn" onclick="sendQuickQuery('Diseña una antena parabólica para 10 GHz con 30 dBi de ganancia')">🛰️ Diseño de Antena</button>
+      <button class="quick-action-btn" onclick="sendQuickQuery('Calcula la respuesta al escalón de un sistema con ωn=5 y ζ=0.3')">⚙️ Respuesta al Escalón</button>
+      <button class="quick-action-btn" onclick="sendQuickQuery('Sintoniza un PID con Ziegler-Nichols para un sistema con Ku=2.5 y Tu=1.2s')">🎛️ Sintonizar PID</button>
+      <button class="quick-action-btn" onclick="sendQuickQuery('Explica la capacidad de canal según Shannon-Hartley')">📊 Capacidad de Canal</button>
+    </div>
+
+    <div class="input-container">
+      <div class="input-wrapper">
+        <textarea 
+          id="messageInput" 
+          placeholder="Escribe tu consulta sobre telecomunicaciones o mecatrónica..."
+          rows="1"
+          onkeydown="handleKeyDown(event)"
+        ></textarea>
+      </div>
+      <button class="send-button" id="sendButton" onclick="sendMessage()">
+        Enviar
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const chatContainer = document.getElementById('chatContainer');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const typingIndicator = document.getElementById('typingIndicator');
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+    const modelSelect = document.getElementById('modelSelect');
+    const toolsPanel = document.getElementById('toolsPanel');
+
+    let isConnected = false;
+    let currentModel = 'qwen2.5-coder:7b';
+
+    // Auto-resize textarea
+    messageInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+
+    function handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function addMessage(content, type) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}`;
+      
+      if (type === 'assistant') {
+        // Convertir markdown básico a HTML
+        let formattedContent = content
+          .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+          .replace(/\n/g, '<br>');
+        
+        messageDiv.innerHTML = formattedContent;
+      } else {
+        messageDiv.textContent = content;
+      }
+      
+      chatContainer.appendChild(messageDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function showTyping() {
+      typingIndicator.classList.add('active');
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function hideTyping() {
+      typingIndicator.classList.remove('active');
+    }
+
+    function updateStatus(connected) {
+      isConnected = connected;
+      if (connected) {
+        statusDot.classList.add('connected');
+        statusText.textContent = 'Conectado';
+        statusText.style.color = '#28a745';
+      } else {
+        statusDot.classList.remove('connected');
+        statusText.textContent = 'Desconectado';
+        statusText.style.color = '#495057';
+      }
+    }
+
+    function showTools(toolCalls) {
+      if (!toolCalls || toolCalls.length === 0) {
+        toolsPanel.classList.remove('active');
+        toolsPanel.innerHTML = '';
+        return;
+      }
+
+      let html = '<h4 style="margin-bottom: 10px; color: #495057;">🔧 Herramientas Ejecutadas:</h4>';
+      
+      toolCalls.forEach(tool => {
+        html += `
+          <div class="tool-result">
+            <h4>${tool.name}</h4>
+            <pre>${JSON.stringify(tool.result, null, 2)}</pre>
+          </div>
+        `;
+      });
+
+      toolsPanel.innerHTML = html;
+      toolsPanel.classList.add('active');
+    }
+
+    async function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text || !isConnected) return;
+
+      // Añadir mensaje del usuario
+      addMessage(text, 'user');
+      messageInput.value = '';
+      messageInput.style.height = 'auto';
+      sendButton.disabled = true;
+
+      // Mostrar indicador de escritura
+      showTyping();
+      toolsPanel.classList.remove('active');
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: text,
+            model: currentModel,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Error en la respuesta del servidor');
+        }
+
+        const data = await response.json();
+        
+        hideTyping();
+        
+        // Mostrar respuesta del asistente
+        addMessage(data.message, 'assistant');
+        
+        // Mostrar herramientas si las hay
+        if (data.toolCalls) {
+          showTools(data.toolCalls);
+        }
+
+      } catch (error) {
+        console.error('Error:', error);
+        hideTyping();
+        addMessage('❌ Error: No se pudo procesar tu consulta. Verifica que el servidor esté corriendo.', 'system');
+      } finally {
+        sendButton.disabled = false;
+        messageInput.focus();
+      }
+    }
+
+    function sendQuickQuery(query) {
+      messageInput.value = query;
+      sendMessage();
+    }
+
+    modelSelect.addEventListener('change', (e) => {
+      currentModel = e.target.value;
+      addMessage(`🔄 Modelo cambiado a: ${currentModel}`, 'system');
+    });
+
+    // Conectar al servidor WebSocket para actualizaciones de estado
+    function connectWebSocket() {
+      const ws = new WebSocket(`ws://${window.location.host}/ws`);
+      
+      ws.onopen = () => {
+        updateStatus(true);
+        addMessage('✅ Conectado al servidor', 'system');
+      };
+      
+      ws.onclose = () => {
+        updateStatus(false);
+        addMessage('❌ Desconectado del servidor. Reconectando...', 'system');
+        setTimeout(connectWebSocket, 3000);
+      };
+      
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+    }
+
+    // Iniciar conexión
+    connectWebSocket();
+
+    // Focus inicial
+    messageInput.focus();
+  </script>
+</body>
+</html>
