@@ -1,251 +1,204 @@
 # Telecom-Meca Agent
 
-📡 Asistente de IA especializado en **Telecomunicaciones** y **Mecatrónica** con ejecución local usando **Qwen** y **Ollama**.
+Asistente de IA especializado en **Telecomunicaciones** y **Mecatrónica** con Qwen y Ollama. Funciona 100% local sin dependencias de APIs externas.
 
-## ✨ Características
+## 🚀 Características
 
-- 🚀 **100% Local** - Sin dependencias de APIs externas
-- 🤖 **Modelos Abiertos** - Basado en Qwen y Ollama
-- 📡 **Especializado en Telecom** - RF, antenas, modulación, presupuesto de enlace
-- ⚙️ **Especializado en Mecatrónica** - Sistemas de control, PID, espacio de estados
-- 💻 **CLI Interactiva** - Modo interactivo y consultas únicas
-- 🔧 **Herramientas Integradas** - Cálculos automáticos mientras chateas
+- ✅ **Totalmente local**: Usa Qwen y Ollama como base, sin APIs externas
+- ✅ **Especializado en telecomunicaciones**: RF, antenas, modulación, presupuesto de enlace
+- ✅ **Especializado en mecatrónica**: Sistemas de control, PID, espacio de estados
+- ✅ **Interfaz web nativa**: UI moderna y responsive incluida
+- ✅ **Integración con Telegram**: Bot opcional para recibir consultas
+- ✅ **Herramientas especializadas**: Cálculos automáticos de parámetros técnicos
+- ✅ **Streaming de respuestas**: Respuestas en tiempo real
 
-## 📦 Requisitos
+## 📋 Requisitos Previos
 
-1. **Node.js 22+** o **Bun**
-2. **Ollama** instalado y ejecutándose
+1. **Node.js >= 22.0.0**
+2. **Ollama instalado** ([Descargar](https://ollama.ai))
+3. **Modelos Qwen descargados** (ver sección de instalación)
 
-### Instalar Ollama
+## 🛠️ Instalación
+
+### 1. Clonar el repositorio
 
 ```bash
-# Linux/macOS
-curl -fsSL https://ollama.ai/install.sh | sh
-
-# Windows
-# Descarga desde: https://ollama.ai/download
-
-# Iniciar el servidor
-ollama serve
+cd /workspace/telecom-meca
 ```
 
-## 🚀 Instalación
+### 2. Instalar dependencias
 
 ```bash
-# Clonar repositorio
-cd telecom-meca
-
-# Instalar dependencias
-bun install
-# o
 npm install
-
-# Descargar modelos recomendados
-bun run models:pull
 ```
 
-## 📖 Uso
-
-### Modo Interactivo
+### 3. Descargar modelos con Ollama
 
 ```bash
-bun run dev
-# o
-bun run src/cli.ts
+# Modelo principal recomendado
+ollama pull qwen2.5-coder:7b
+
+# Modelos alternativos
+ollama pull qwen2.5:7b
+ollama pull llama3.2:3b
+ollama pull mistral:7b
 ```
 
-### Consulta Única
+### 4. Configurar variables de entorno
 
 ```bash
-# Calcular presupuesto de enlace
-bun run dev "Calcula el presupuesto de enlace para 2.4 GHz a 1 km con 20 dBm"
-
-# Diseñar antena
-bun run dev --model qwen2.5-coder:14b "Diseña una antena parabólica para 10 GHz con 30 dBi"
-
-# Análisis de sistemas de control
-bun run dev --stream "Analiza un sistema de segundo orden con ωn=5 y ζ=0.7"
+cp .env.example .env
 ```
 
-### Opciones de CLI
+Editar `.env` y configurar:
 
-```
---help, -h              Mostrar ayuda
---model <nombre>        Modelo a usar (default: qwen2.5-coder:7b)
---verbose, -v           Modo detallado
---stream                Usar streaming de respuestas
-```
+```bash
+# Configuración de Ollama
+OLLAMA_HOST=http://localhost:11434
 
-### Comandos Interactivos
+# Puerto del servidor
+PORT=8080
 
-```
-/clear          Limpiar historial
-/model <name>   Cambiar modelo
-/stream         Alternar modo streaming
-/verbose        Alternar modo detallado
-/help           Mostrar ayuda
-/exit           Salir
+# Token de Telegram (opcional)
+TELEGRAM_BOT_TOKEN=tu_token_aqui
+
+# Usuarios permitidos (opcional)
+TELEGRAM_ALLOWED_USERS=123456789,987654321
 ```
 
-## 🛠️ Herramientas Especializadas
+## 🚀 Uso
+
+### Iniciar servidor con UI web
+
+```bash
+npm run server
+```
+
+Acceder a: **http://localhost:8080**
+
+### Usar solo CLI
+
+```bash
+npm run dev
+```
+
+### Construir para producción
+
+```bash
+npm run build
+npm run server:build
+```
+
+## 📡 Integración con Telegram
+
+1. Crea un bot con [@BotFather](https://t.me/BotFather) en Telegram
+2. Copia el token que te proporciona
+3. Añádelo a tu archivo `.env`:
+
+```bash
+TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
+```
+
+4. Reinicia el servidor
+
+El bot responderá automáticamente a los mensajes.
+
+## 🧮 Herramientas Disponibles
 
 ### Telecomunicaciones
 
-- **Presupuesto de Enlace** - Cálculo de FSPL, potencia recibida, margen
-- **Diseño de Antenas** - Ganancia, beamwidth, área efectiva
-- **Modulación** - ASK, FSK, PSK, QAM, OFDM
-- **Capacidad de Shannon** - Límite teórico del canal
-- **BER** - Tasa de error de bits
-- **Líneas de Transmisión** - Impedancia característica
+- **Presupuesto de enlace**: Calcula potencia recibida, pérdida en espacio libre, margen del sistema
+- **Diseño de antenas**: Ganancia, beamwidth, área efectiva, longitud de onda
+- **Modulación**: Parámetros para ASK, FSK, PSK, QAM, OFDM
+- **Capacidad de Shannon**: Cálculo de capacidad máxima del canal
+- **BER (Bit Error Rate)**: Tasa de error para diferentes esquemas
+- **Conversión de unidades**: dBm ↔ Watts, impedancia característica
 
 ### Mecatrónica
 
-- **Funciones de Transferencia** - Conversión TF ↔ Espacio de estados
-- **Respuesta al Escalón** - Sobrepico, tiempo de asentamiento, tiempo de subida
-- **Sintonización PID** - Ziegler-Nichols y por especificaciones
-- **Análisis de Estabilidad** - Criterio de Routh-Hurwitz
-- **Cálculo de Polos** - Para sistemas de segundo orden
+- **Respuesta al escalón**: Sobrepico, tiempo de asentamiento, tiempo de subida
+- **Sintonización PID**: Método Ziegler-Nichols, sintonización por especificaciones
+- **Análisis de estabilidad**: Cálculo de polos, criterio de Routh-Hurwitz
+- **Espacio de estados**: Conversión TF ↔ Espacio de estados
 
-## 🤖 Modelos Recomendados
+## 💻 Ejemplos de Uso
 
-| Modelo | Uso | RAM Mínima |
-|--------|-----|------------|
-| `qwen2.5-coder:7b` | Coding y razonamiento general | 8 GB |
-| `qwen2.5-coder:14b` | Mejor razonamiento | 16 GB |
-| `qwen2.5:7b` | Chat general | 8 GB |
-| `qwen2.5-math:7b` | Matemáticas avanzadas | 8 GB |
-| `qwen2.5-vl:7b` | Visión (diagramas, esquemas) | 8 GB |
+### Desde la Web UI
+
+Simplemente escribe tus consultas en la interfaz web:
+
+- "Calcula el presupuesto de enlace para 2.4 GHz, 20 dBm, 5 km"
+- "Diseña una antena parabólica para 10 GHz con 30 dBi"
+- "Calcula la respuesta al escalón de un sistema con ωn=5 y ζ=0.3"
+- "Sintoniza un PID con Ziegler-Nichols para Ku=2.5 y Tu=1.2s"
+
+### Desde Telegram
+
+Envía mensajes directamente al bot con las mismas consultas.
+
+### Desde la API
+
+```bash
+curl -X POST http://localhost:8080/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Calcula FSPL para 2.4 GHz a 100m"}'
+```
 
 ## 📁 Estructura del Proyecto
 
 ```
 telecom-meca/
 ├── src/
-│   ├── models/
-│   │   ├── ollama.ts      # Proveedor Ollama
-│   │   ├── qwen.ts        # Proveedor Qwen
-│   │   └── index.ts       # Exportaciones
-│   ├── skills/
-│   │   ├── telecom/
-│   │   │   └── rf-calculator.ts    # Herramientas RF
-│   │   └── meca/
-│   │       └── control-systems.ts  # Sistemas de control
-│   ├── core/
-│   │   └── agent.ts       # Agente principal
-│   └── cli.ts             # CLI interactiva
-├── scripts/
-│   ├── pull-models.ts     # Descargar modelos
-│   └── list-models.ts     # Listar modelos
-├── package.json
-└── README.md
+│   ├── channels/         # Canales de comunicación (Telegram)
+│   │   └── telegram.ts
+│   ├── core/             # Lógica principal del agente
+│   │   └── agent.ts
+│   ├── models/           # Proveedores de modelos (Qwen, Ollama)
+│   │   ├── ollama.ts
+│   │   └── qwen.ts
+│   ├── skills/           # Habilidades especializadas
+│   │   ├── telecom/      # Telecomunicaciones
+│   │   │   └── rf-calculator.ts
+│   │   └── meca/         # Mecatrónica
+│   │       └── control-systems.ts
+│   ├── server.ts         # Servidor principal
+│   └── cli.ts            # Interfaz de línea de comandos
+├── public/               # Archivos estáticos (UI web)
+│   └── index.html
+├── scripts/              # Scripts utilitarios
+├── tests/                # Pruebas unitarias
+└── package.json
 ```
 
-## 🔧 Desarrollo
+## 🔧 Comandos Disponibles
 
-```bash
-# Modo desarrollo (con hot-reload)
-bun run dev
-
-# Compilar
-bun run build
-
-# Ejecutar tests
-bun run test
-
-# Tests específicos
-bun run test:telecom    # Telecomunicaciones
-bun run test:meca       # Mecatrónica
-bun run test:live       # Tests con modelos reales
-```
-
-## 📝 Ejemplos
-
-### Telecomunicaciones
-
-```typescript
-import { calculateLinkBudget, calculateAntenna } from './src/skills/telecom/rf-calculator.js';
-
-// Presupuesto de enlace WiFi
-const result = calculateLinkBudget({
-  frequency: 2.4e9,      // 2.4 GHz
-  txPower: 20,           // 20 dBm
-  txAntennaGain: 10,     // 10 dBi
-  rxAntennaGain: 10,     // 10 dBi
-  distance: 1000,        // 1 km
-});
-
-console.log(`Potencia recibida: ${result.receivedPower.toFixed(2)} dBm`);
-console.log(`Margen: ${result.margin.toFixed(2)} dB`);
-console.log(`Factible: ${result.feasible}`);
-
-// Diseño de antena parabólica
-const antenna = calculateAntenna({
-  frequency: 10e9,       // 10 GHz
-  gain: 30,              // 30 dBi
-  efficiency: 0.55,
-});
-
-console.log(`Diámetro necesario: ${antenna.diameter?.toFixed(2)} m`);
-console.log(`Beamwidth: ${antenna.beamwidth?.toFixed(2)}°`);
-```
-
-### Mecatrónica
-
-```typescript
-import { stepResponse, tunePIDBySpecs } from './src/skills/meca/control-systems.js';
-
-// Respuesta al escalón de sistema de segundo orden
-const wn = 5;  // Frecuencia natural
-const zeta = 0.7;  // Factor de amortiguamiento
-
-const system = {
-  numerator: [wn * wn],
-  denominator: [1, 2 * zeta * wn, wn * wn],
-};
-
-const response = stepResponse(system, 10, 1000);
-
-console.log(`Sobrepico: ${response.overshoot.toFixed(2)}%`);
-console.log(`Tiempo de asentamiento: ${response.settlingTime.toFixed(3)} s`);
-console.log(`Tiempo de subida: ${response.riseTime.toFixed(3)} s`);
-
-// Sintonización PID
-const pid = tunePIDBySpecs(system, {
-  overshoot: 5,
-  settlingTime: 2,
-  riseTime: 0.5,
-});
-
-console.log(`Kp: ${pid.kp.toFixed(2)}, Ki: ${pid.ki.toFixed(2)}, Kd: ${pid.kd.toFixed(2)}`);
-```
-
-## 🌍 Variables de Entorno
-
-```bash
-# Opcional: URL personalizada de Ollama
-OLLAMA_HOST=http://localhost:11434
-
-# Opcional: URL de Qwen (si usas servidor compatible con OpenAI)
-QWEN_BASE_URL=http://localhost:11434
-QWEN_API_KEY=tu-api-key
-```
-
-## 📄 Licencia
-
-MIT
+| Comando | Descripción |
+|---------|-------------|
+| `npm run server` | Inicia servidor con UI web |
+| `npm run dev` | Inicia CLI interactiva |
+| `npm run build` | Compila TypeScript a JavaScript |
+| `npm run server:build` | Inicia servidor desde build |
+| `npm run models:pull` | Descarga modelos recomendados |
+| `npm run models:list` | Lista modelos disponibles |
+| `npm test` | Ejecuta pruebas unitarias |
 
 ## 🤝 Contribuir
 
+Las contribuciones son bienvenidas. Por favor:
+
 1. Fork el repositorio
 2. Crea una rama (`git checkout -b feature/nueva-habilidad`)
-3. Commit tus cambios (`git commit -m 'Añadir nueva habilidad'`)
-4. Push a la rama (`git push origin feature/nueva-habilidad`)
+3. Commit tus cambios (`git commit -am 'Añade nueva habilidad'`)
+4. Push (`git push origin feature/nueva-habilidad`)
 5. Abre un Pull Request
 
-## 📞 Soporte
+## 📄 Licencia
 
-- Issues: https://github.com/tu-usuario/telecom-meca/issues
-- Documentación: `/docs`
+MIT License - ver [LICENSE](LICENSE) para más detalles.
+
+## 🆘 Soporte
+
+Para issues o preguntas, abre un issue en GitHub.
 
 ---
 

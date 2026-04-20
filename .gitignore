@@ -7,12 +7,6 @@ dist/
 build/
 target/
 
-# TypeScript compiled files
-*.js
-*.js.map
-*.d.ts
-*.d.ts.map
-
 # Logs
 *.log
 
@@ -21,26 +15,35 @@ target/
 .env.local
 *.env.*
 
-# IDE files
+# IDE specific
 .vscode/
 .idea/
 *.swp
 *.swo
 *.tmp
 
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Coverage reports
-coverage/
-htmlcov/
-*.coverage
-
-# Python cache (if any Python files exist)
+# Python specific (if applicable)
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
+venv/
+.venv/
+.venv.bak/
+.env.bak/
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# MyPy cache
+.mypy_cache/
 ```
