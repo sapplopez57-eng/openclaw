@@ -74,7 +74,7 @@ export class OllamaProvider extends EventEmitter {
         throw new Error(`Ollama server responded with status ${response.status}`);
       }
 
-      const data = await response.json() as { models?: Array<{ name: string; details?: { families?: Array<{ context_length?: number; multimodal?: boolean }> }> } };
+      const data = await response.json() as any;
       
       for (const model of data.models || []) {
         const ollamaModel: OllamaModel = {

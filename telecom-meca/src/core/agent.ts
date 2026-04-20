@@ -89,21 +89,25 @@ Siempre proporciona explicaciones claras y muestra los cálculos cuando sea rele
    * Inicializa los proveedores de modelos
    */
   async initialize(): Promise<void> {
+    // Intentar conectar a Qwen/Ollama, pero no fallar si no está disponible
     try {
       await this.qwenProvider.connect();
       this.log('Qwen provider connected');
+    } catch (error) {
+      this.log('Qwen provider not available (Ollama may not be running)');
+    }
 
+    try {
       await this.ollamaProvider.connect();
       this.log('Ollama provider connected');
-
-      this.emit('ready', {
-        qwenModels: this.qwenProvider.getModels().length,
-        ollamaModels: this.ollamaProvider.getModels().length,
-      });
     } catch (error) {
-      this.emit('error', error);
-      throw error;
+      this.log('Ollama provider not available (Ollama may not be running)');
     }
+
+    this.emit('ready', {
+      qwenModels: this.qwenProvider.getModels().length,
+      ollamaModels: this.ollamaProvider.getModels().length,
+    });
   }
 
   /**

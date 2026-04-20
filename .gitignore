@@ -10,19 +10,19 @@ target/
 # Logs
 *.log
 
-# Environment variables
+# Environment
 .env
 .env.local
 *.env.*
 
-# IDE specific
+# Editor/IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *.tmp
 
-# Python specific (if applicable)
+# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -30,20 +30,30 @@ __pycache__/
 .Python
 venv/
 .venv/
-.venv.bak/
-.env.bak/
+.env/
 
-# Coverage reports
+# Compiled files
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Temporary files
-*.tmp
-*.temp
+# Cache
+.mypy_cache/
+.pytest_cache/
+.gradle/
+.npm/
+.yarn/
+
+# System
 .DS_Store
 Thumbs.db
-
-# MyPy cache
-.mypy_cache/
 ```

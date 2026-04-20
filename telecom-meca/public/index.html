@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telecom-Meca Agent - Web Interface</title>
+  <title>Telecom-Meca Agent - Constructor Web</title>
   <style>
     * {
       margin: 0;
@@ -11,106 +11,260 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a67d8;
+      --secondary: #764ba2;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --danger: #f56565;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --border: #e2e8f0;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 900px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      display: flex;
       flex-direction: column;
-      height: 85vh;
     }
 
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 25px 30px;
-      text-align: center;
+    /* Header */
+    .app-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 40px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .header h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .header p {
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .status-bar {
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 30px;
-      background: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
     }
 
-    .status-indicator {
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      font-size: 32px;
+    }
+
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo p {
+      font-size: 12px;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-tab {
+      padding: 10px 20px;
+      border: none;
+      background: transparent;
+      color: #4a5568;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .nav-tab:hover {
+      background: #edf2f7;
+    }
+
+    .nav-tab.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+    }
+
+    /* Main Container */
+    .main-container {
+      flex: 1;
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 30px;
+      gap: 30px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 320px;
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      height: fit-content;
+    }
+
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+
+    .sidebar-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .config-item {
+      margin-bottom: 16px;
+    }
+
+    .config-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d3748;
+      margin-bottom: 6px;
+    }
+
+    .config-input, .config-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .config-input:focus, .config-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .config-help {
+      font-size: 11px;
+      color: #718096;
+      margin-top: 4px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success) 0%, #38a169 100%);
+      color: white;
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(72, 187, 120, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Chat Area */
+    .chat-area {
+      flex: 1;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: calc(100vh - 180px);
+    }
+
+    .chat-header {
+      padding: 20px 30px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-status {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 14px;
-      color: #495057;
+      font-size: 13px;
     }
 
     .status-dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #6c757d;
+      background: #fed7d7;
       transition: background 0.3s;
     }
 
     .status-dot.connected {
-      background: #28a745;
-      box-shadow: 0 0 8px rgba(40, 167, 69, 0.4);
+      background: #9ae6b4;
+      box-shadow: 0 0 10px rgba(72, 187, 120, 0.6);
     }
 
-    .model-selector {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .model-selector select {
-      padding: 8px 12px;
-      border: 1px solid #dee2e6;
-      border-radius: 8px;
-      font-size: 14px;
-      background: white;
-      cursor: pointer;
-    }
-
-    .chat-container {
+    .chat-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 30px;
+      padding: 30px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 16px;
     }
 
     .message {
       max-width: 80%;
-      padding: 15px 20px;
-      border-radius: 15px;
-      line-height: 1.5;
+      padding: 16px 20px;
+      border-radius: 16px;
+      line-height: 1.6;
       animation: fadeIn 0.3s ease;
+      position: relative;
     }
 
     @keyframes fadeIn {
@@ -126,60 +280,72 @@
 
     .message.user {
       align-self: flex-end;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
-      border-bottom-right-radius: 5px;
+      border-bottom-right-radius: 4px;
     }
 
     .message.assistant {
       align-self: flex-start;
-      background: #f1f3f4;
-      color: #333;
-      border-bottom-left-radius: 5px;
+      background: #f7fafc;
+      color: #2d3748;
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
     }
 
     .message.system {
       align-self: center;
-      background: #fff3cd;
-      color: #856404;
+      background: #fffaf0;
+      color: #c05621;
       font-size: 13px;
-      padding: 10px 15px;
+      padding: 10px 16px;
       text-align: center;
+      border: 1px solid #fbd38d;
     }
 
     .message pre {
-      background: #2d2d2d;
-      color: #f8f8f2;
-      padding: 12px;
+      background: #1a202c;
+      color: #e2e8f0;
+      padding: 14px;
       border-radius: 8px;
       overflow-x: auto;
-      margin: 10px 0;
+      margin: 12px 0;
       font-size: 13px;
+      font-family: 'Courier New', monospace;
     }
 
     .message code {
       font-family: 'Courier New', monospace;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .message.user code {
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .typing-indicator {
       display: none;
       align-self: flex-start;
-      background: #f1f3f4;
-      padding: 15px 20px;
-      border-radius: 15px;
-      border-bottom-left-radius: 5px;
+      background: #f7fafc;
+      padding: 16px 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
     }
 
     .typing-indicator.active {
       display: flex;
-      gap: 5px;
+      gap: 6px;
     }
 
     .typing-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #adb5bd;
+      background: #cbd5e0;
       animation: typing 1.4s infinite;
     }
 
@@ -202,12 +368,12 @@
       }
     }
 
-    .input-container {
+    .chat-input-area {
       padding: 20px 30px;
-      background: #f8f9fa;
-      border-top: 1px solid #e9ecef;
+      background: #f7fafc;
+      border-top: 1px solid var(--border);
       display: flex;
-      gap: 15px;
+      gap: 12px;
     }
 
     .input-wrapper {
@@ -217,79 +383,53 @@
 
     textarea {
       width: 100%;
-      padding: 15px 20px;
-      border: 2px solid #dee2e6;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
       border-radius: 12px;
-      font-size: 15px;
+      font-size: 14px;
       resize: none;
       font-family: inherit;
       transition: border-color 0.3s;
       outline: none;
+      min-height: 50px;
+      max-height: 150px;
     }
 
     textarea:focus {
-      border-color: #667eea;
+      border-color: var(--primary);
     }
 
-    .send-button {
-      padding: 0 30px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .send-btn {
+      padding: 0 28px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
       border: none;
       border-radius: 12px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .send-button:hover {
+    .send-btn:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
 
-    .send-button:active {
-      transform: translateY(0);
-    }
-
-    .send-button:disabled {
+    .send-btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      transform: none;
     }
 
-    .quick-actions {
-      display: flex;
-      gap: 10px;
-      padding: 15px 30px;
-      background: white;
-      border-top: 1px solid #e9ecef;
-      overflow-x: auto;
-    }
-
-    .quick-action-btn {
-      padding: 8px 16px;
-      background: #f1f3f4;
-      border: 1px solid #dee2e6;
-      border-radius: 20px;
-      font-size: 13px;
-      color: #495057;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .quick-action-btn:hover {
-      background: #e9ecef;
-      border-color: #667eea;
-      color: #667eea;
-    }
-
+    /* Tools Panel */
     .tools-panel {
       display: none;
-      padding: 15px 30px;
-      background: #f8f9fa;
-      border-top: 1px solid #e9ecef;
+      padding: 20px 30px;
+      background: #ebf8ff;
+      border-top: 1px solid #bee3f8;
     }
 
     .tools-panel.active {
@@ -297,120 +437,420 @@
     }
 
     .tool-result {
-      background: #e7f3ff;
-      border: 1px solid #b3d9ff;
-      border-radius: 8px;
-      padding: 12px;
-      margin-top: 10px;
+      background: white;
+      border: 1px solid #90cdf4;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 12px;
       font-size: 13px;
     }
 
     .tool-result h4 {
-      color: #0066cc;
-      margin-bottom: 8px;
+      color: #2c5282;
+      margin-bottom: 10px;
       font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .tool-result pre {
-      background: #f1f3f4;
-      padding: 10px;
+      background: #f7fafc;
+      padding: 12px;
       border-radius: 6px;
       overflow-x: auto;
       font-size: 12px;
+      border: 1px solid var(--border);
     }
 
-    /* Scrollbar styling */
-    .chat-container::-webkit-scrollbar {
+    /* Quick Actions */
+    .quick-actions {
+      display: flex;
+      gap: 8px;
+      padding: 16px 30px;
+      background: white;
+      border-top: 1px solid var(--border);
+      overflow-x: auto;
+      flex-wrap: wrap;
+    }
+
+    .quick-action-btn {
+      padding: 8px 16px;
+      background: #edf2f7;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #4a5568;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .quick-action-btn:hover {
+      background: #e2e8f0;
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: var(--dark);
+    }
+
+    .modal p {
+      color: #4a5568;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .download-options {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .download-option {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .download-option:hover {
+      border-color: var(--primary);
+      background: #f7fafc;
+    }
+
+    .download-option.selected {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    }
+
+    .download-option h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .download-option p {
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+
+    .config-preview {
+      background: #1a202c;
+      color: #e2e8f0;
+      padding: 20px;
+      border-radius: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
       width: 8px;
+      height: 8px;
     }
 
-    .chat-container::-webkit-scrollbar-track {
+    ::-webkit-scrollbar-track {
       background: #f1f1f1;
-    }
-
-    .chat-container::-webkit-scrollbar-thumb {
-      background: #c1c1c1;
       border-radius: 4px;
     }
 
-    .chat-container::-webkit-scrollbar-thumb:hover {
-      background: #a8a8a8;
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e0;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a0aec0;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .main-container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .chat-area {
+        height: 600px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>📡 Telecom-Meca Agent</h1>
-      <p>Asistente especializado en Telecomunicaciones y Mecatrónica</p>
-    </div>
-
-    <div class="status-bar">
-      <div class="status-indicator">
-        <div class="status-dot" id="statusDot"></div>
-        <span id="statusText">Desconectado</span>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="logo">
+        <span class="logo-icon">📡</span>
+        <div>
+          <h1>Telecom-Meca Agent</h1>
+          <p>Constructor de Agentes Especializados</p>
+        </div>
       </div>
-      <div class="model-selector">
-        <label for="modelSelect">Modelo:</label>
-        <select id="modelSelect">
-          <option value="qwen2.5-coder:7b">Qwen 2.5 Coder 7B</option>
-          <option value="qwen2.5:7b">Qwen 2.5 7B</option>
-          <option value="llama3.2:3b">Llama 3.2 3B</option>
-          <option value="mistral:7b">Mistral 7B</option>
-        </select>
+      <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('chat')">💬 Chat</button>
+        <button class="nav-tab" onclick="switchTab('config')">⚙️ Configuración</button>
+        <button class="nav-tab" onclick="switchTab('skills')">🛠️ Habilidades</button>
+        <button class="nav-tab" onclick="showDownloadModal()">📦 Descargar</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Configuración del Modelo</h3>
+        
+        <div class="config-item">
+          <label class="config-label">Proveedor</label>
+          <select class="config-select" id="modelProvider" onchange="updateConfig()">
+            <option value="ollama">Ollama (Local)</option>
+            <option value="qwen">Qwen (OpenAI Compatible)</option>
+          </select>
+          <p class="config-help">Selecciona el proveedor de IA</p>
+        </div>
+
+        <div class="config-item">
+          <label class="config-label">Modelo</label>
+          <select class="config-select" id="modelName" onchange="updateConfig()">
+            <option value="qwen2.5-coder:7b">Qwen 2.5 Coder 7B</option>
+            <option value="qwen2.5:7b">Qwen 2.5 7B</option>
+            <option value="qwen2.5:14b">Qwen 2.5 14B</option>
+            <option value="llama3.2:3b">Llama 3.2 3B</option>
+            <option value="llama3.1:8b">Llama 3.1 8B</option>
+            <option value="mistral:7b">Mistral 7B</option>
+            <option value="codellama:7b">Code Llama 7B</option>
+          </select>
+          <p class="config-help">Modelo base para el agente</p>
+        </div>
+
+        <div class="config-item">
+          <label class="config-label">URL del Servidor</label>
+          <input type="text" class="config-input" id="serverUrl" value="http://localhost:11434" onchange="updateConfig()">
+          <p class="config-help">URL de Ollama o API compatible</p>
+        </div>
+
+        <div class="config-item">
+          <label class="config-label">Temperatura</label>
+          <input type="range" class="config-input" id="temperature" min="0" max="1" step="0.1" value="0.7" onchange="updateConfig()">
+          <p class="config-help" id="tempValue">0.7 (Equilibrado)</p>
+        </div>
       </div>
-    </div>
 
-    <div class="chat-container" id="chatContainer">
-      <div class="message system">
-        👋 ¡Bienvenido! Soy tu asistente especializado en telecomunicaciones y mecatrónica.<br>
-        Puedo ayudarte con cálculos de RF, diseño de antenas, sistemas de control, PID, y más.
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Habilidades Activas</h3>
+        
+        <div class="config-item">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="skillRF" checked onchange="updateConfig()">
+            <span class="config-label" style="margin: 0;">📡 RF & Antenas</span>
+          </label>
+        </div>
+
+        <div class="config-item">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="skillControl" checked onchange="updateConfig()">
+            <span class="config-label" style="margin: 0;">⚙️ Sistemas de Control</span>
+          </label>
+        </div>
+
+        <div class="config-item">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="skillModulation" checked onchange="updateConfig()">
+            <span class="config-label" style="margin: 0;">📊 Modulación</span>
+          </label>
+        </div>
+
+        <div class="config-item">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="skillPID" checked onchange="updateConfig()">
+            <span class="config-label" style="margin: 0;">🎛️ Control PID</span>
+          </label>
+        </div>
       </div>
-    </div>
 
-    <div class="typing-indicator" id="typingIndicator">
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-    </div>
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Telegram (Opcional)</h3>
+        
+        <div class="config-item">
+          <label class="config-label">Bot Token</label>
+          <input type="password" class="config-input" id="telegramToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
+          <p class="config-help">Token de tu bot de Telegram</p>
+        </div>
 
-    <div class="tools-panel" id="toolsPanel"></div>
-
-    <div class="quick-actions">
-      <button class="quick-action-btn" onclick="sendQuickQuery('Calcula el presupuesto de enlace para 2.4 GHz, 20 dBm, 5 km')">📡 Presupuesto de Enlace</button>
-      <button class="quick-action-btn" onclick="sendQuickQuery('Diseña una antena parabólica para 10 GHz con 30 dBi de ganancia')">🛰️ Diseño de Antena</button>
-      <button class="quick-action-btn" onclick="sendQuickQuery('Calcula la respuesta al escalón de un sistema con ωn=5 y ζ=0.3')">⚙️ Respuesta al Escalón</button>
-      <button class="quick-action-btn" onclick="sendQuickQuery('Sintoniza un PID con Ziegler-Nichols para un sistema con Ku=2.5 y Tu=1.2s')">🎛️ Sintonizar PID</button>
-      <button class="quick-action-btn" onclick="sendQuickQuery('Explica la capacidad de canal según Shannon-Hartley')">📊 Capacidad de Canal</button>
-    </div>
-
-    <div class="input-container">
-      <div class="input-wrapper">
-        <textarea 
-          id="messageInput" 
-          placeholder="Escribe tu consulta sobre telecomunicaciones o mecatrónica..."
-          rows="1"
-          onkeydown="handleKeyDown(event)"
-        ></textarea>
+        <div class="config-item">
+          <label class="config-label">Usuarios Autorizados</label>
+          <input type="text" class="config-input" id="telegramUsers" placeholder="123456789,987654321">
+          <p class="config-help">IDs separados por coma (vacío = todos)</p>
+        </div>
       </div>
-      <button class="send-button" id="sendButton" onclick="sendMessage()">
-        Enviar
+
+      <button class="btn btn-primary" onclick="testConnection()">
+        🔌 Probar Conexión
       </button>
+    </aside>
+
+    <!-- Chat Area -->
+    <div class="chat-area">
+      <div class="chat-header">
+        <div>
+          <h2 style="font-size: 18px; font-weight: 600;">Chat con el Agente</h2>
+          <p style="font-size: 13px; opacity: 0.9; margin-top: 4px;">Prueba y configura tu agente antes de descargar</p>
+        </div>
+        <div class="chat-status">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="statusText">Desconectado</span>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatContainer">
+        <div class="message system">
+          👋 ¡Bienvenido al constructor de Telecom-Meca Agent!<br><br>
+          Configura el modelo y las habilidades en el panel izquierdo, luego prueba el agente aquí.<br>
+          Cuando estés satisfecho, haz clic en "Descargar" para obtener tu versión personalizada.
+        </div>
+      </div>
+
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+
+      <div class="tools-panel" id="toolsPanel"></div>
+
+      <div class="quick-actions">
+        <button class="quick-action-btn" onclick="sendQuickQuery('Calcula el presupuesto de enlace para 2.4 GHz, 20 dBm, 5 km')">📡 Presupuesto RF</button>
+        <button class="quick-action-btn" onclick="sendQuickQuery('Diseña una antena parabólica para 10 GHz con 30 dBi')">🛰️ Antena</button>
+        <button class="quick-action-btn" onclick="sendQuickQuery('Calcula respuesta al escalón con ωn=5, ζ=0.3')">⚙️ Respuesta</button>
+        <button class="quick-action-btn" onclick="sendQuickQuery('Sintoniza PID con Ziegler-Nichols, Ku=2.5, Tu=1.2s')">🎛️ PID</button>
+        <button class="quick-action-btn" onclick="sendQuickQuery('Explica QAM-16 y su eficiencia espectral')">📊 QAM-16</button>
+        <button class="quick-action-btn" onclick="sendQuickQuery('Calcula capacidad de canal con BW=20MHz, SNR=30dB')">📈 Shannon</button>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="input-wrapper">
+          <textarea 
+            id="messageInput" 
+            placeholder="Escribe tu consulta sobre telecomunicaciones o mecatrónica..."
+            rows="1"
+            onkeydown="handleKeyDown(event)"
+          ></textarea>
+        </div>
+        <button class="send-btn" id="sendButton" onclick="sendMessage()">
+          <span>Enviar</span>
+          <span>➤</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Modal -->
+  <div class="modal-overlay" id="downloadModal">
+    <div class="modal">
+      <h2>📦 Descargar tu Agente Personalizado</h2>
+      <p>Has configurado un agente especializado. Elige cómo quieres descargarlo:</p>
+
+      <div class="download-options">
+        <div class="download-option selected" onclick="selectDownloadOption('docker')">
+          <h3>🐳 Docker Compose</h3>
+          <p>Incluye contenedores para el agente, Ollama y configuración lista para producción</p>
+        </div>
+        <div class="download-option" onclick="selectDownloadOption('npm')">
+          <h3>📦 Paquete NPM</h3>
+          <p>Paquete Node.js completo con todas las dependencias y scripts de instalación</p>
+        </div>
+        <div class="download-option" onclick="selectDownloadOption('binary')">
+          <h3>⚡ Binario Ejecutable</h3>
+          <p>Archivo único ejecutable para Linux, macOS o Windows (requiere Ollama instalado)</p>
+        </div>
+      </div>
+
+      <h3 style="font-size: 16px; margin-bottom: 12px; color: var(--dark);">Vista Previa de Configuración:</h3>
+      <div class="config-preview" id="configPreview"></div>
+
+      <div class="modal-actions">
+        <button class="btn" style="background: #e2e8f0; color: #4a5568;" onclick="closeDownloadModal()">
+          ✕ Cancelar
+        </button>
+        <button class="btn btn-success" onclick="downloadAgent()">
+          ⬇️ Descargar Ahora
+        </button>
+      </div>
     </div>
   </div>
 
   <script>
+    // Estado global
+    let isConnected = false;
+    let currentModel = 'qwen2.5-coder:7b';
+    let agentConfig = {};
+    let selectedDownloadType = 'docker';
+
+    // Elementos DOM
     const chatContainer = document.getElementById('chatContainer');
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
     const typingIndicator = document.getElementById('typingIndicator');
     const statusDot = document.getElementById('statusDot');
     const statusText = document.getElementById('statusText');
-    const modelSelect = document.getElementById('modelSelect');
     const toolsPanel = document.getElementById('toolsPanel');
-
-    let isConnected = false;
-    let currentModel = 'qwen2.5-coder:7b';
+    const configPreview = document.getElementById('configPreview');
 
     // Auto-resize textarea
     messageInput.addEventListener('input', function() {
@@ -418,6 +858,64 @@
       this.style.height = Math.min(this.scrollHeight, 120) + 'px';
     });
 
+    // Inicializar
+    updateConfig();
+    connectWebSocket();
+
+    // Actualizar configuración
+    function updateConfig() {
+      const tempSlider = document.getElementById('temperature');
+      const tempValue = tempSlider.value;
+      let tempLabel = 'Equilibrado';
+      if (tempValue < 0.3) tempLabel = 'Determinista';
+      else if (tempValue > 0.7) tempLabel = 'Creativo';
+      document.getElementById('tempValue').textContent = `${tempValue} (${tempLabel})`;
+
+      agentConfig = {
+        provider: document.getElementById('modelProvider').value,
+        model: document.getElementById('modelName').value,
+        serverUrl: document.getElementById('serverUrl').value,
+        temperature: parseFloat(tempSlider.value),
+        skills: {
+          rf: document.getElementById('skillRF').checked,
+          control: document.getElementById('skillControl').checked,
+          modulation: document.getElementById('skillModulation').checked,
+          pid: document.getElementById('skillPID').checked,
+        },
+        telegram: {
+          token: document.getElementById('telegramToken').value || '',
+          allowedUsers: document.getElementById('telegramUsers').value || '',
+        }
+      };
+
+      currentModel = agentConfig.model;
+      updateConfigPreview();
+    }
+
+    // Actualizar vista previa de configuración
+    function updateConfigPreview() {
+      const preview = {
+        agent: {
+          name: 'telecom-meca-agent',
+          version: '1.0.0',
+          provider: agentConfig.provider,
+          model: agentConfig.model,
+          baseUrl: agentConfig.serverUrl,
+          temperature: agentConfig.temperature,
+        },
+        skills: Object.entries(agentConfig.skills)
+          .filter(([_, enabled]) => enabled)
+          .map(([name]) => name),
+        telegram: agentConfig.telegram.token ? {
+          enabled: true,
+          allowedUsers: agentConfig.telegram.allowedUsers || 'all'
+        } : { enabled: false }
+      };
+
+      configPreview.textContent = JSON.stringify(preview, null, 2);
+    }
+
+    // Manejar Enter
     function handleKeyDown(event) {
       if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
@@ -425,12 +923,12 @@
       }
     }
 
+    // Añadir mensaje
     function addMessage(content, type) {
       const messageDiv = document.createElement('div');
       messageDiv.className = `message ${type}`;
       
       if (type === 'assistant') {
-        // Convertir markdown básico a HTML
         let formattedContent = content
           .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
           .replace(/`([^`]+)`/g, '<code>$1</code>')
@@ -447,6 +945,7 @@
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
+    // Mostrar indicador de escritura
     function showTyping() {
       typingIndicator.classList.add('active');
       chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -456,19 +955,21 @@
       typingIndicator.classList.remove('active');
     }
 
+    // Actualizar estado
     function updateStatus(connected) {
       isConnected = connected;
       if (connected) {
         statusDot.classList.add('connected');
         statusText.textContent = 'Conectado';
-        statusText.style.color = '#28a745';
+        statusText.style.color = '#48bb78';
       } else {
         statusDot.classList.remove('connected');
         statusText.textContent = 'Desconectado';
-        statusText.style.color = '#495057';
+        statusText.style.color = '#718096';
       }
     }
 
+    // Mostrar herramientas
     function showTools(toolCalls) {
       if (!toolCalls || toolCalls.length === 0) {
         toolsPanel.classList.remove('active');
@@ -476,12 +977,12 @@
         return;
       }
 
-      let html = '<h4 style="margin-bottom: 10px; color: #495057;">🔧 Herramientas Ejecutadas:</h4>';
+      let html = '<h4 style="margin-bottom: 12px; color: #2c5282; font-size: 14px;">🔧 Herramientas Ejecutadas:</h4>';
       
       toolCalls.forEach(tool => {
         html += `
           <div class="tool-result">
-            <h4>${tool.name}</h4>
+            <h4>⚡ ${tool.name}</h4>
             <pre>${JSON.stringify(tool.result, null, 2)}</pre>
           </div>
         `;
@@ -491,44 +992,44 @@
       toolsPanel.classList.add('active');
     }
 
+    // Enviar mensaje
     async function sendMessage() {
       const text = messageInput.value.trim();
-      if (!text || !isConnected) return;
+      if (!text || !isConnected) {
+        if (!isConnected) {
+          addMessage('⚠️ No hay conexión con el servidor. Asegúrate de que Ollama esté corriendo en ' + agentConfig.serverUrl, 'system');
+        }
+        return;
+      }
 
-      // Añadir mensaje del usuario
       addMessage(text, 'user');
       messageInput.value = '';
       messageInput.style.height = 'auto';
       sendButton.disabled = true;
 
-      // Mostrar indicador de escritura
       showTyping();
       toolsPanel.classList.remove('active');
 
       try {
         const response = await fetch('/api/chat', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             query: text,
             model: currentModel,
+            config: agentConfig,
           }),
         });
 
         if (!response.ok) {
-          throw new Error('Error en la respuesta del servidor');
+          throw new Error('Error en la respuesta');
         }
 
         const data = await response.json();
         
         hideTyping();
-        
-        // Mostrar respuesta del asistente
         addMessage(data.message, 'assistant');
         
-        // Mostrar herramientas si las hay
         if (data.toolCalls) {
           showTools(data.toolCalls);
         }
@@ -536,24 +1037,45 @@
       } catch (error) {
         console.error('Error:', error);
         hideTyping();
-        addMessage('❌ Error: No se pudo procesar tu consulta. Verifica que el servidor esté corriendo.', 'system');
+        addMessage('❌ Error: No se pudo procesar tu consulta. Verifica la configuración.', 'system');
       } finally {
         sendButton.disabled = false;
         messageInput.focus();
       }
     }
 
+    // Envío rápido
     function sendQuickQuery(query) {
       messageInput.value = query;
       sendMessage();
     }
 
-    modelSelect.addEventListener('change', (e) => {
-      currentModel = e.target.value;
-      addMessage(`🔄 Modelo cambiado a: ${currentModel}`, 'system');
-    });
+    // Probar conexión
+    async function testConnection() {
+      const btn = event.target;
+      btn.disabled = true;
+      btn.innerHTML = '🔄 Probando...';
 
-    // Conectar al servidor WebSocket para actualizaciones de estado
+      try {
+        const response = await fetch('/api/health');
+        const data = await response.json();
+        
+        if (data.status === 'ok') {
+          addMessage('✅ ¡Conexión exitosa! El servidor está respondiendo correctamente.', 'system');
+          updateStatus(true);
+        } else {
+          throw new Error('Respuesta inesperada');
+        }
+      } catch (error) {
+        addMessage('❌ Error de conexión. Verifica que el servidor esté corriendo en ' + agentConfig.serverUrl, 'system');
+        updateStatus(false);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '🔌 Probar Conexión';
+      }
+    }
+
+    // WebSocket
     function connectWebSocket() {
       const ws = new WebSocket(`ws://${window.location.host}/ws`);
       
@@ -564,7 +1086,6 @@
       
       ws.onclose = () => {
         updateStatus(false);
-        addMessage('❌ Desconectado del servidor. Reconectando...', 'system');
         setTimeout(connectWebSocket, 3000);
       };
       
@@ -573,8 +1094,213 @@
       };
     }
 
-    // Iniciar conexión
-    connectWebSocket();
+    // Cambiar tab
+    function switchTab(tab) {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Aquí podrías implementar navegación entre vistas
+      if (tab === 'config') {
+        addMessage('⚙️ Usa el panel izquierdo para configurar el modelo y las habilidades del agente.', 'system');
+      } else if (tab === 'skills') {
+        addMessage('🛠️ Las habilidades activas determinan qué herramientas puede usar el agente. Marca/desmarca en el panel izquierdo.', 'system');
+      }
+    }
+
+    // Modal de descarga
+    function showDownloadModal() {
+      document.getElementById('downloadModal').classList.add('active');
+      updateConfigPreview();
+    }
+
+    function closeDownloadModal() {
+      document.getElementById('downloadModal').classList.remove('active');
+    }
+
+    function selectDownloadOption(type) {
+      selectedDownloadType = type;
+      document.querySelectorAll('.download-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      event.target.closest('.download-option').classList.add('selected');
+    }
+
+    // Descargar agente
+    function downloadAgent() {
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      let content, filename, mimeType;
+
+      if (selectedDownloadType === 'docker') {
+        content = generateDockerCompose();
+        filename = `telecom-meca-agent-${timestamp}.zip`;
+        mimeType = 'application/zip';
+      } else if (selectedDownloadType === 'npm') {
+        content = generateNPMPackage();
+        filename = `telecom-meca-agent-${timestamp}.tar.gz`;
+        mimeType = 'application/gzip';
+      } else {
+        content = generateBinaryInstructions();
+        filename = `telecom-meca-agent-${timestamp}-instructions.txt`;
+        mimeType = 'text/plain';
+      }
+
+      // Crear blob y descargar
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      addMessage(`📦 ¡Tu agente ha sido generado! Se descargará el archivo ${filename}`, 'system');
+      closeDownloadModal();
+    }
+
+    // Generar Docker Compose
+    function generateDockerCompose() {
+      return `version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: telecom-meca-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  agent:
+    build: .
+    container_name: telecom-meca-agent
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - MODEL=${agentConfig.model}
+      - TEMPERATURE=${agentConfig.temperature}
+      ${agentConfig.telegram.token ? `- TELEGRAM_BOT_TOKEN=${agentConfig.telegram.token}` : ''}
+      ${agentConfig.telegram.allowedUsers ? `- TELEGRAM_ALLOWED_USERS=${agentConfig.telegram.allowedUsers}` : ''}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+
+# Skills activas: ${Object.entries(agentConfig.skills).filter(([_, v]) => v).map(([k]) => k).join(', ')}
+# Para instalar: docker-compose up -d
+# Luego: docker exec telecom-meca-ollama ollama pull ${agentConfig.model}
+`;
+    }
+
+    // Generar paquete NPM
+    function generateNPMPackage() {
+      return `# Telecom-Meca Agent - Paquete Personalizado
+Generado: ${new Date().toLocaleString()}
+
+## Instalación
+
+\`\`\`bash
+# Clonar repositorio
+git clone https://github.com/tu-repo/telecom-meca-agent.git
+cd telecom-meca-agent
+
+# Instalar dependencias
+npm install
+
+# Copiar configuración
+cp .env.example .env
+
+# Editar .env con tus valores
+# OLLAMA_HOST=${agentConfig.serverUrl}
+# MODEL=${agentConfig.model}
+# TEMPERATURE=${agentConfig.temperature}
+${agentConfig.telegram.token ? '# TELEGRAM_BOT_TOKEN=' + agentConfig.telegram.token : ''}
+
+# Iniciar servidor
+npm run server
+
+# O usar CLI
+npm run cli
+\`\`\`
+
+## Configuración
+
+- **Proveedor:** ${agentConfig.provider}
+- **Modelo:** ${agentConfig.model}
+- **URL:** ${agentConfig.serverUrl}
+- **Temperatura:** ${agentConfig.temperature}
+- **Skills:** ${Object.entries(agentConfig.skills).filter(([_, v]) => v).map(([k]) => k).join(', ')}
+${agentConfig.telegram.token ? '- **Telegram:** Habilitado' : '- **Telegram:** Deshabilitado'}
+
+## Uso
+
+### Web Interface
+Abre http://localhost:8080 en tu navegador
+
+### API REST
+\`\`\`bash
+curl -X POST http://localhost:8080/api/chat \\
+  -H "Content-Type: application/json" \\
+  -d '{"query": "Calcula presupuesto de enlace", "model": "${agentConfig.model}"}'
+\`\`\`
+
+### CLI
+\`\`\`bash
+npm run cli -- "Tu consulta aquí"
+\`\`\`
+`;
+    }
+
+    // Generar instrucciones para binario
+    function generateBinaryInstructions() {
+      return `# Telecom-Meca Agent - Versión Binaria
+Generado: ${new Date().toLocaleString()}
+
+## Requisitos Previos
+
+1. Instalar Ollama: https://ollama.ai
+2. Pull del modelo: ollama pull ${agentConfig.model}
+
+## Instalación
+
+\`\`\`bash
+# Descargar binario (ejemplo para Linux x64)
+wget https://github.com/tu-repo/releases/download/v1.0.0/telecom-meca-agent-linux-x64.tar.gz
+tar -xzf telecom-meca-agent-linux-x64.tar.gz
+cd telecom-meca-agent
+
+# Configurar
+export OLLAMA_HOST=${agentConfig.serverUrl}
+export MODEL=${agentConfig.model}
+export TEMPERATURE=${agentConfig.temperature}
+${agentConfig.telegram.token ? 'export TELEGRAM_BOT_TOKEN=' + agentConfig.telegram.token : ''}
+
+# Ejecutar
+./telecom-meca-agent
+\`\`\`
+
+## Configuración Personalizada
+
+- Proveedor: ${agentConfig.provider}
+- Modelo: ${agentConfig.model}
+- Temperatura: ${agentConfig.temperature}
+- Skills activas: ${Object.entries(agentConfig.skills).filter(([_, v]) => v).map(([k]) => k).join(', ')}
+
+## Plataformas Disponibles
+
+- Linux x64
+- macOS (Intel y Apple Silicon)
+- Windows x64
+
+Descarga la versión correspondiente a tu sistema desde:
+https://github.com/tu-repo/releases
+`;
+    }
 
     // Focus inicial
     messageInput.focus();

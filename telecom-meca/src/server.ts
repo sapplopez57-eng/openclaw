@@ -167,7 +167,7 @@ class TelecomMecaServer {
     }
 
     try {
-      const { query, model } = JSON.parse(body);
+      const { query, model, config } = JSON.parse(body);
 
       if (!query) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -178,6 +178,17 @@ class TelecomMecaServer {
       // Cambiar modelo si se especifica
       if (model) {
         this.agent.config.preferredModel = model;
+      }
+
+      // Aplicar configuración personalizada si viene
+      if (config) {
+        if (config.temperature !== undefined) {
+          // La temperatura se aplicaría en las llamadas al modelo
+          console.log('Temperature:', config.temperature);
+        }
+        if (config.skills) {
+          console.log('Skills activas:', config.skills);
+        }
       }
 
       // Procesar consulta
