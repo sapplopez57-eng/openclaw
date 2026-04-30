@@ -1,60 +1,84 @@
-node_modules
+# Dependencies
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py.class
+*.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment
 .env
-docker-compose.extra.yml
-dist
-*.bun-build
-pnpm-lock.yaml
-bun.lock
-bun.lockb
-coverage
-.pnpm-store
-.worktrees/
-.DS_Store
-**/.DS_Store
-ui/src/ui/__screenshots__/
-ui/playwright-report/
-ui/test-results/
+.env.local
+.env.*
+.venv/
+venv/
+env/
+ENV/
 
-# Bun build artifacts
-*.bun-build
-apps/macos/.build/
-apps/shared/ClawdbotKit/.build/
-**/ModuleCache/
-bin/
-bin/clawdbot-mac
-bin/docs-list
-apps/macos/.build-local/
-apps/macos/.swiftpm/
-apps/shared/ClawdbotKit/.swiftpm/
-Core/
-apps/ios/*.xcodeproj/
-apps/ios/*.xcworkspace/
-apps/ios/.swiftpm/
-vendor/
-
-# Vendor build artifacts
-vendor/a2ui/renderers/lit/dist/
-.bundle.hash
-
-# fastlane (iOS)
-apps/ios/fastlane/README.md
-apps/ios/fastlane/report.xml
-apps/ios/fastlane/Preview.html
-apps/ios/fastlane/screenshots/
-apps/ios/fastlane/test_output/
-apps/ios/fastlane/logs/
-
-# fastlane build artifacts (local)
-apps/ios/*.ipa
-apps/ios/*.dSYM.zip
-
-# provisioning profiles (local)
-apps/ios/*.mobileprovision
-.env
-
-# Local untracked files
-.local/
+# IDE
 .vscode/
-IDENTITY.md
-USER.md
-.tgz
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage
+.coverage
+coverage/
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# Build
+target/
+.gradle/
+node_modules/
+
+# Compressed
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
